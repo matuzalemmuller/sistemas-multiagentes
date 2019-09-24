@@ -1,0 +1,1 @@
+Projects from *Multiagent Systems* (Sistemas Multiagentes) course from Master's Program @ UFSC.
