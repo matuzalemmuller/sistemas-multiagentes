@@ -1,0 +1,30 @@
+
+/*
+
+Very simple vacuum cleaner agent in a world that has only four locations.
+
+Perceptions:
+. dirty: the current location has dirty
+. clean: the current location is clean
+. pos(X): the agent position is X (0 < X < 5).
+
+Actions:
+. suck: clean the current location
+. left, right, up, down: move the agent
+
+*/
+
+// TODO: the code of the agent
+
+// plans for a dirty location
++pos(1) : dirty <- suck; right.
++pos(2) : dirty <- suck; down.
++pos(3) : dirty <- suck; up.
++pos(4) : dirty <- suck; left.
+
+// plans for other circumstances
++pos(1) : true <- right.
++pos(2) : true <- down.
++pos(3) : true <- up.
++pos(4) : true <- left.
+
