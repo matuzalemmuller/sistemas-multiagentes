@@ -1,2 +1,6 @@
 # macOS Finder file
 .DS_Store
+
+# Temp files created by jedit
+*.asl~
+*.mas2j~
