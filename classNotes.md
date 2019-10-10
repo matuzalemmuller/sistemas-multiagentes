@@ -18,8 +18,3 @@ Class notes from Multiagent Systems Course @ PGEAS: http://jomi.das.ufsc.br/mas/
 * _White pages_: agent X can be reached at Y
     * name (symbolic) + address (physical)
 * _Yellow pages_: address of agent X that does Y
-
-## Environment
-
-* Artifact:
-  * 
