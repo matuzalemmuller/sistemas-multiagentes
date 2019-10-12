@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-package jade.cnp;
+package src;
 
 import jade.core.Agent;
 import jade.core.AID;
@@ -59,9 +59,11 @@ public class Initiator extends Agent {
     // Put agent initializations here
     protected void setup() {
         if (DEBUG == true)
-            System.out.println("Initiator " + getAID().getName() + " starting");
+            System.out.println(getAID().getName() + " starting");
         // Randomizes amount of services to be requested
-        num_services_requested = ThreadLocalRandom.current().nextInt(1, 11);
+
+        Object[] args = getArguments();
+        num_services_requested = Integer.valueOf(args[0].toString());
 
         // Requests services
         for (int service_index, i = num_services_requested; i > 0; i--) {
@@ -69,7 +71,7 @@ public class Initiator extends Agent {
             RequestService(services.get(service_index));
 
             if (DEBUG == true)
-                System.out.println("Sent request to hire " + services.get(service_index));
+                System.out.println(getAID().getName() + " sent request to hire " + services.get(service_index));
         }
     }
 
@@ -78,7 +80,7 @@ public class Initiator extends Agent {
         addBehaviour(new TickerBehaviour(this, 10000) {
             protected void onTick() {
                 if (DEBUG == true)
-                    System.out.println("Trying to hire " + service);
+                    System.out.println(getAID().getName() + " trying to hire " + service);
                 // Update the list of seller agents
                 DFAgentDescription template = new DFAgentDescription();
                 ServiceDescription sd = new ServiceDescription();
@@ -86,12 +88,9 @@ public class Initiator extends Agent {
                 template.addServices(sd);
                 try {
                     DFAgentDescription[] result = DFService.search(myAgent, template);
-                    if (DEBUG == true)
-                        System.out.println("Found the following seller agents for service: " + service);
                     sellerAgents = new AID[result.length];
                     for (int i = 0; i < result.length; ++i) {
                         sellerAgents[i] = result[i].getName();
-                        System.out.println(sellerAgents[i].getName());
                     }
                 } catch (FIPAException fe) {
                     fe.printStackTrace();
@@ -107,13 +106,13 @@ public class Initiator extends Agent {
     // Put agent clean-up operations here
     protected void takeDown() {
         // Printout a dismissal message
-        System.out.println("Initiator " + getAID().getName() + " terminating.");
+        System.out.println(getAID().getName() + " terminating.");
     }
 
     /**
        Inner class RequestPerformer.
-       This is the behaviour used by Initiator agents to request Participant 
-       agents the target service.
+       This is the behaviour used by Initiator agents to hire Participant 
+       agents
      */
     private class RequestPerformer extends Behaviour {
         private AID bestParticipant; // The agent who provides the best offer 
@@ -189,8 +188,7 @@ public class Initiator extends Agent {
                         if (reply.getPerformative() == ACLMessage.INFORM) {
                             // Purchase successful. We can terminate
                             if (DEBUG == true) {
-                                System.out.println("Successfully hired agent " + reply.getSender().getName() + " as " + serviceName);
-                                System.out.println("Price = " + bestPrice);
+                                System.out.println(getAID().getName() + " successfully hired agent " + reply.getSender().getName() + " as " + serviceName);
                             }
                         }
                         step = 4;
@@ -200,11 +198,12 @@ public class Initiator extends Agent {
                     }
                 case 4:
                     if(services_hired == num_services_requested){
-                        try {
-                            getContainerController().kill();
-                        } catch(Exception e) {
-                            System.out.println(e);
-                        }
+                        myAgent.doDelete();
+                    //     try {
+                    //         getContainerController().kill();
+                    //     } catch(Exception e) {
+                    //         System.out.println(e);
+                    //     }
                         step = 5;
                     }
                     break;
@@ -214,15 +213,17 @@ public class Initiator extends Agent {
         public boolean done() {
             if (step == 2 && bestParticipant == null) {
                 if (DEBUG == true)
-                    System.out.println("Attempt failed: " + serviceName + " not available for hiring");
+                    System.out.println(getAID().getName() + ": " + serviceName + " not available for hiring");
                 services_hired++;
             }
+
             if(services_hired == num_services_requested){
-                try {
-                    getContainerController().kill();
-                } catch(Exception e) {
-                    System.out.println(e);
-                }
+                myAgent.doDelete();
+            //     try {
+            //         getContainerController().kill();
+            //     } catch(Exception e) {
+            //         System.out.println(e);
+            //     }
                 return true;
             }
             return ((step == 2 && bestParticipant == null) || step == 5);

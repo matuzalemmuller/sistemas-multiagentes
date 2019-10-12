@@ -21,7 +21,7 @@ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA  02111-1307, USA.
 *****************************************************************/
 
-package jade.cnp;
+package src;
 
 import jade.core.Agent;
 import jade.core.behaviours.*;
@@ -61,7 +61,7 @@ public class Participant extends Agent {
         this.service_name = services.get(service_index);
 
         if (DEBUG == true)
-            System.out.println("Agent " + getAID().getName() + " will work as " + this.service_name);
+            System.out.println(getAID().getName() + " will work as " + this.service_name);
 
         // Register the book-selling service in the yellow pages
         DFAgentDescription dfd = new DFAgentDescription();
@@ -76,11 +76,11 @@ public class Participant extends Agent {
             fe.printStackTrace();
         }
 
-        // Add the behaviour serving queries from buyer agents
-        addBehaviour(new OfferRequestsServer());
+        // Add the behaviour serving queries from Initiator agents
+        addBehaviour(new OfferService());
 
-        // Add the behaviour serving purchase orders from buyer agents
-        addBehaviour(new PurchaseOrdersServer());
+        // Add the behaviour serving hiring requests from Initiator agents
+        addBehaviour(new HiringServer());
     }
 
     // Put agent clean-up operations here
@@ -96,14 +96,11 @@ public class Participant extends Agent {
     }
 
     /**
-         Inner class OfferRequestsServer.
-         This is the behaviour used by Book-seller agents to serve incoming requests 
-         for offer from buyer agents.
-         If the requested book is in the local catalogue the seller agent replies 
-         with a PROPOSE message specifying the price. Otherwise a REFUSE message is
-         sent back.
+        Inner class OfferService.
+        This is the behaviour used by Participant agents to serve incoming requests 
+        for offer from Initiator agents.
     */
-    private class OfferRequestsServer extends CyclicBehaviour {
+    private class OfferService extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
             ACLMessage msg = myAgent.receive(mt);
@@ -117,7 +114,7 @@ public class Participant extends Agent {
                     price = ThreadLocalRandom.current().nextInt(0, 1000);
                     reply.setContent(String.valueOf(price));
                     if (DEBUG == true)
-                        System.out.println("Offered to work for " + msg.getSender().getName() + " for price " + price);
+                        System.out.println(getAID().getName() + " offered to work for " + msg.getSender().getName() + " for price " + price);
                 } else {
                     // The requested book is NOT available for sale.
                     reply.setPerformative(ACLMessage.REFUSE);
@@ -128,17 +125,14 @@ public class Participant extends Agent {
                 block();
             }
         }
-    } // End of inner class OfferRequestsServer
+    } // End of inner class OfferService
 
     /**
-         Inner class PurchaseOrdersServer.
-         This is the behaviour used by Book-seller agents to serve incoming 
-         offer acceptances (i.e. purchase orders) from buyer agents.
-         The seller agent removes the purchased book from its catalogue 
-         and replies with an INFORM message to notify the buyer that the
-         purchase has been sucesfully completed.
+        Inner class HiringServer.
+        This is the behaviour used by Participant agents to serve incoming 
+        offer acceptances from Initiator agents.
     */
-    private class PurchaseOrdersServer extends CyclicBehaviour {
+    private class HiringServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
             ACLMessage msg = myAgent.receive(mt);
@@ -150,7 +144,7 @@ public class Participant extends Agent {
                 if(serviceName.equals(service_name)){
                     reply.setPerformative(ACLMessage.INFORM);
                     if (DEBUG == true)
-                        System.out.println("Hired by agent " + msg.getSender().getName());
+                        System.out.println(getAID().getName() + " hired by agent " + msg.getSender().getName());
                 } else {
                     // Participant does not work in this profession
                     reply.setPerformative(ACLMessage.FAILURE);
@@ -161,6 +155,6 @@ public class Participant extends Agent {
                 block();
             }
         }
-    } // End of inner class OfferRequestsServer
+    } // End of inner class OfferService
 
 } // end of the agent class
