@@ -4,3 +4,6 @@
 # Temp files created by jedit
 *.asl~
 *.mas2j~
+
+# Compiled java files
+.class
