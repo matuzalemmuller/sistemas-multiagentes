@@ -6,4 +6,8 @@
 *.mas2j~
 
 # Compiled java files
-.class
+*.class
+
+# JADE files
+APDescription.txt
+MTPs-Main-Container.txt
