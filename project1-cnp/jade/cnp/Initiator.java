@@ -41,19 +41,25 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Initiator extends Agent {
+    // Print state messages
+    private boolean DEBUG = true;
     // List of services available
     private List <String> services = Arrays.asList( "pedreiro", "padeiro",
                                                     "mecanico", "encanador",
                                                     "pintor", "padre",
                                                     "chaveiro", "programador",
                                                     "carteiro", "bancario" );
+    // Number of services to be requested
     private int num_services_requested;
+    // Tracks how many services were hired from participants
     private int services_hired = 0;
     // The list of known seller agents
     private AID[] sellerAgents;
 
     // Put agent initializations here
     protected void setup() {
+        if (DEBUG == true)
+            System.out.println("Initiator " + getAID().getName() + " starting");
         // Randomizes amount of services to be requested
         num_services_requested = ThreadLocalRandom.current().nextInt(1, 11);
 
@@ -61,6 +67,9 @@ public class Initiator extends Agent {
         for (int service_index, i = num_services_requested; i > 0; i--) {
             service_index = ThreadLocalRandom.current().nextInt(0, 10);
             RequestService(services.get(service_index));
+
+            if (DEBUG == true)
+                System.out.println("Sent request to hire " + services.get(service_index));
         }
     }
 
@@ -68,7 +77,8 @@ public class Initiator extends Agent {
     protected void RequestService(String service) {
         addBehaviour(new TickerBehaviour(this, 10000) {
             protected void onTick() {
-                System.out.println("Trying to hire " + service);
+                if (DEBUG == true)
+                    System.out.println("Trying to hire " + service);
                 // Update the list of seller agents
                 DFAgentDescription template = new DFAgentDescription();
                 ServiceDescription sd = new ServiceDescription();
@@ -76,7 +86,8 @@ public class Initiator extends Agent {
                 template.addServices(sd);
                 try {
                     DFAgentDescription[] result = DFService.search(myAgent, template);
-                    System.out.println("Found the following seller agents:");
+                    if (DEBUG == true)
+                        System.out.println("Found the following seller agents for service: " + service);
                     sellerAgents = new AID[result.length];
                     for (int i = 0; i < result.length; ++i) {
                         sellerAgents[i] = result[i].getName();
@@ -177,8 +188,10 @@ public class Initiator extends Agent {
                         // Purchase order reply received
                         if (reply.getPerformative() == ACLMessage.INFORM) {
                             // Purchase successful. We can terminate
-                            System.out.println(serviceName + " successfully hired service from agent " + reply.getSender().getName());
-                            System.out.println("Price = " + bestPrice);
+                            if (DEBUG == true) {
+                                System.out.println("Successfully hired agent " + reply.getSender().getName() + " as " + serviceName);
+                                System.out.println("Price = " + bestPrice);
+                            }
                         }
                         step = 4;
                         services_hired++;
@@ -187,7 +200,11 @@ public class Initiator extends Agent {
                     }
                 case 4:
                     if(services_hired == num_services_requested){
-                        myAgent.doDelete();
+                        try {
+                            getContainerController().kill();
+                        } catch(Exception e) {
+                            System.out.println(e);
+                        }
                         step = 5;
                     }
                     break;
@@ -196,11 +213,16 @@ public class Initiator extends Agent {
 
         public boolean done() {
             if (step == 2 && bestParticipant == null) {
-                System.out.println("Attempt failed: service not available for hiring");
+                if (DEBUG == true)
+                    System.out.println("Attempt failed: " + serviceName + " not available for hiring");
                 services_hired++;
             }
             if(services_hired == num_services_requested){
-                myAgent.doDelete();
+                try {
+                    getContainerController().kill();
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
                 return true;
             }
             return ((step == 2 && bestParticipant == null) || step == 5);

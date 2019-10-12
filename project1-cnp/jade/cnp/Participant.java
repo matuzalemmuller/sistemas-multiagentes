@@ -40,23 +40,28 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Participant extends Agent {
-    // The catalogue of books for sale (maps the title of a book to its price)
-    //private Hashtable catalogue;
-    // The GUI by means of which the user can add books in the catalogue
-    //private ParticipantGui myGui;
+    // Print state messages
+    private boolean DEBUG = true;
+    // List of services available
     private List <String> services = Arrays.asList( "pedreiro", "padeiro",
                                                     "mecanico", "encanador",
                                                     "pintor", "padre",
                                                     "chaveiro", "programador",
                                                     "carteiro", "bancario" );
+    // Name of service provided by this agent
     private String service_name;
-    private int service_index = ThreadLocalRandom.current().nextInt(0, 10);
+    // Randomizes which service will be provided
+    private int service_index;
+    // Price of service provided by this agent
     private int price;
 
     // Put agent initializations here
     protected void setup() {
+        this.service_index = ThreadLocalRandom.current().nextInt(0, 10);
         this.service_name = services.get(service_index);
-        System.out.println(this.service_name);
+
+        if (DEBUG == true)
+            System.out.println("Agent " + getAID().getName() + " will work as " + this.service_name);
 
         // Register the book-selling service in the yellow pages
         DFAgentDescription dfd = new DFAgentDescription();
@@ -86,8 +91,6 @@ public class Participant extends Agent {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-        // Close the GUI
-        //myGui.dispose();
         // Printout a dismissal message
         System.out.println("Participant " + getAID().getName() + " terminating.");
     }
@@ -113,6 +116,8 @@ public class Participant extends Agent {
                     reply.setPerformative(ACLMessage.PROPOSE);
                     price = ThreadLocalRandom.current().nextInt(0, 1000);
                     reply.setContent(String.valueOf(price));
+                    if (DEBUG == true)
+                        System.out.println("Offered to work for " + msg.getSender().getName() + " for price " + price);
                 } else {
                     // The requested book is NOT available for sale.
                     reply.setPerformative(ACLMessage.REFUSE);
@@ -139,14 +144,15 @@ public class Participant extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             if (msg != null) {
                 // ACCEPT_PROPOSAL Message received. Process it
-                String title = msg.getContent();
+                String serviceName = msg.getContent();
                 ACLMessage reply = msg.createReply();
 
-                if(title.equals(service_name)){
+                if(serviceName.equals(service_name)){
                     reply.setPerformative(ACLMessage.INFORM);
-                    System.out.println(title + " sold to agent " + msg.getSender().getName());
+                    if (DEBUG == true)
+                        System.out.println("Hired by agent " + msg.getSender().getName());
                 } else {
-                    // The requested book has been sold to another buyer in the meanwhile .
+                    // Participant does not work in this profession
                     reply.setPerformative(ACLMessage.FAILURE);
                     reply.setContent("not-available");
                 }
