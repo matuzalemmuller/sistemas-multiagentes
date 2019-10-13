@@ -1,4 +1,16 @@
 /* Initial beliefs and rules */
+codFunc(0,pedreiro).
+codFunc(1,padeiro).
+codFunc(2,mecanico).
+codFunc(3,encanador).
+codFunc(4,pintor).
+codFunc(5,programador).
+codFunc(6,carteiro).
+codFunc(7,bancario).
+codFunc(8,padre).
+codFunc(9,chaveiro).
+count(10).
+
 
 all_proposals_received(CNPId)
   :- nb_participants(CNPId,NP) &                 // number of participants
@@ -7,18 +19,23 @@ all_proposals_received(CNPId)
      NP = NO + NR.
 
 /* Initial goals */
-!startCNP(1,pedreiro).
-!startCNP(2,padeiro).
-!startCNP(3,mecanico).
-!startCNP(4,encanador).
-!startCNP(5,pintor).
-!startCNP(6,programador).
-!startCNP(7,carteiro).
-//!startCNP(1,bancario).
-//!startCNP(1,padre).
-//!startCNP(1,chaveiro).
+!start.
+
 
 !register.
+
+
++!start : count(N) & N > 0 <-  .random(R1); //First random number to get the profession
+            Cod = math.floor(10*R1);
+            -count(A);
+            C = A - 1;
+            ?codFunc(Cod,Nome);
+            !startCNP(A,Nome);
+            +count(C);
+            !start.
+            
++!start <- .print("Finished creating CFPs.").
+
 +!register <- .df_register(initiator).
 
 /* Plans */

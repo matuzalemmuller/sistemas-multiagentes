@@ -1,21 +1,21 @@
 //available professions
-codFunc(1,pedreiro).
-codFunc(2,padeiro).
-codFunc(3,mecanico).
-codFunc(4,encanador).
-codFunc(5,pintor).
-codFunc(6,programador).
-codFunc(7,carteiro).
-codFunc(8,bancario).
-codFunc(9,padre).
-codFunc(10,chaveiro).
+codFunc(0,pedreiro).
+codFunc(1,padeiro).
+codFunc(2,mecanico).
+codFunc(3,encanador).
+codFunc(4,pintor).
+codFunc(5,programador).
+codFunc(6,carteiro).
+codFunc(7,bancario).
+codFunc(8,padre).
+codFunc(9,chaveiro).
 
 !register.
 
 +!register <- .df_register("participant");
               .df_subscribe("initiator");
               .random(R1); //First random number to get the profession
-              Cod = math.round(10*R1);
+              Cod = math.floor(10*R1);
               .random(R2); //Second random number (price)
               X = (1000*R2);
               +price(Cod,X).
