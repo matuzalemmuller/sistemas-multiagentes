@@ -1,28 +1,28 @@
-// gets the price for the product,
-// a random value between 100 and 110.
-
-
-price(pedreiro,X) :- .random(R) & X = (100*R).
-price(padeiro,X) :- .random(R) & X = (100*R).
-price(mecanico,X) :- .random(R) & X = (100*R).
-price(encanador,X) :- .random(R) & X = (100*R).
-price(pintor,X) :- .random(R) & X = (100*R).
-price(programador,X) :- .random(R) & X = (100*R).
-price(carteiro,X) :- .random(R) & X = (100*R).
-price(bancario,X) :- .random(R) & X = (100*R).
-price(padre,X) :- .random(R) & X = (100*R).
-price(chaveiro,X) :- .random(R) & X = (100*R).
-
+//available professions
+codFunc(1,pedreiro).
+codFunc(2,padeiro).
+codFunc(3,mecanico).
+codFunc(4,encanador).
+codFunc(5,pintor).
+codFunc(6,programador).
+codFunc(7,carteiro).
+codFunc(8,bancario).
+codFunc(9,padre).
+codFunc(10,chaveiro).
 
 !register.
 
 +!register <- .df_register("participant");
-              .df_subscribe("initiator").
+              .df_subscribe("initiator");
+              .random(R1); //First random number to get the profession
+              Cod = math.round(10*R1);
+              .random(R2); //Second random number (price)
+              X = (1000*R2);
+              +price(Cod,X).
 
-// answer to Call For Proposal
 @c1 +cfp(CNPId,Task)[source(A)]
    :  provider(A,"initiator") &
-      price(Task,Offer)
+      price(Cod,Offer) & codFunc(Cod,Task)
    <- +proposal(CNPId,Task,Offer); // remember my proposal
       .send(A,tell,propose(CNPId,Task,Offer)).
 
