@@ -25,13 +25,13 @@ public class Initiator extends Agent {
     // Tracks how many services were hired from participants
     private int services_hired = 0;
     // The list of known seller agents
-    private AID[] sellerAgents;
+    private AID[] participantAgents;
 
     // Put agent initializations here
     protected void setup() {
         Object[] args = getArguments();
         DEBUG = Boolean.valueOf(args[0].toString());
-        
+
         // Randomizes amount of services to be requested
         num_services_requested = Integer.valueOf(args[1].toString());
 
@@ -61,9 +61,9 @@ public class Initiator extends Agent {
                 template.addServices(sd);
                 try {
                     DFAgentDescription[] result = DFService.search(myAgent, template);
-                    sellerAgents = new AID[result.length];
+                    participantAgents = new AID[result.length];
                     for (int i = 0; i < result.length; ++i) {
-                        sellerAgents[i] = result[i].getName();
+                        participantAgents[i] = result[i].getName();
                     }
                 } catch (FIPAException fe) {
                     fe.printStackTrace();
@@ -103,8 +103,8 @@ public class Initiator extends Agent {
             case 0:
                 // Send the cfp to all sellers
                 ACLMessage cfp = new ACLMessage(ACLMessage.CFP);
-                for (int i = 0; i < sellerAgents.length; ++i) {
-                    cfp.addReceiver(sellerAgents[i]);
+                for (int i = 0; i < participantAgents.length; ++i) {
+                    cfp.addReceiver(participantAgents[i]);
                 }
                 cfp.setContent(serviceName);
                 cfp.setConversationId("service-hire");
@@ -130,7 +130,7 @@ public class Initiator extends Agent {
                         }
                     }
                     repliesCnt++;
-                    if (repliesCnt >= sellerAgents.length) {
+                    if (repliesCnt >= participantAgents.length) {
                         // We received all replies
                         step = 2;
                     }
@@ -171,11 +171,6 @@ public class Initiator extends Agent {
             case 4:
                 if (services_hired == num_services_requested) {
                     myAgent.doDelete();
-                    // try {
-                    // getContainerController().kill();
-                    // } catch(Exception e) {
-                    // System.out.println(e);
-                    // }
                     step = 5;
                 }
                 break;
@@ -191,11 +186,6 @@ public class Initiator extends Agent {
 
             if (services_hired == num_services_requested) {
                 myAgent.doDelete();
-                // try {
-                // getContainerController().kill();
-                // } catch(Exception e) {
-                // System.out.println(e);
-                // }
                 return true;
             }
             return ((step == 2 && bestParticipant == null) || step == 5);

@@ -1,6 +1,6 @@
 JC = javac
 
-export CLASSPATH := src/jade-4.3.jar:.
+export CLASSPATH := lib/jade-4.3.jar:.
 
 .SUFFIXES: .java .class
 .java.class:
