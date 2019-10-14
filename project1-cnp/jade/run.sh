@@ -1,3 +1,4 @@
 #! /bin/bash
 
-java -cp "cnp/jade-4.3.jar:." src/Test
+cd src
+java -cp "jade-4.3.jar:." Test

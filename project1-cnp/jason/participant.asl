@@ -1,14 +1,14 @@
-//available professions
-codFunc(0,pedreiro).
-codFunc(1,padeiro).
-codFunc(2,mecanico).
-codFunc(3,encanador).
-codFunc(4,pintor).
-codFunc(5,programador).
-codFunc(6,carteiro).
-codFunc(7,bancario).
-codFunc(8,padre).
-codFunc(9,chaveiro).
+// Available professions
+codFunc(0,builder).
+codFunc(1,baker).
+codFunc(2,mechanic).
+codFunc(3,plumber).
+codFunc(4,painter).
+codFunc(5,priest).
+codFunc(6,locksmith).
+codFunc(7,programmer).
+codFunc(8,postman).
+codFunc(9,banker).
 
 !register.
 

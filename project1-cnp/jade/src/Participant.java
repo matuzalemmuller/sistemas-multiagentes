@@ -1,28 +1,3 @@
-/*****************************************************************
-JADE - Java Agent DEvelopment Framework is a framework to develop 
-multi-agent systems in compliance with the FIPA specifications.
-Copyright (C) 2000 CSELT S.p.A. 
-
-GNU Lesser General Public License
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation, 
-version 2.1 of the License. 
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the
-Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA  02111-1307, USA.
-*****************************************************************/
-
-package src;
-
 import jade.core.Agent;
 import jade.core.behaviours.*;
 import jade.lang.acl.ACLMessage;
@@ -38,16 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 public class Participant extends Agent {
     // Print state messages
     private boolean DEBUG = true;
     // List of services available
-    private List <String> services = Arrays.asList( "pedreiro", "padeiro",
-                                                    "mecanico", "encanador",
-                                                    "pintor", "padre",
-                                                    "chaveiro", "programador",
-                                                    "carteiro", "bancario" );
+    private List<String> services = Arrays.asList("builder", "baker", "mechanic", "plumber", "painter", "priest",
+            "locksmith", "programmer", "postman", "banker");
     // Name of service provided by this agent
     private String service_name;
     // Randomizes which service will be provided
@@ -57,6 +28,10 @@ public class Participant extends Agent {
 
     // Put agent initializations here
     protected void setup() {
+        Object[] args = getArguments();
+        DEBUG = Boolean.valueOf(args[0].toString());
+
+        // Randomizes choosing service
         this.service_index = ThreadLocalRandom.current().nextInt(0, 10);
         this.service_name = services.get(service_index);
 
@@ -96,10 +71,9 @@ public class Participant extends Agent {
     }
 
     /**
-        Inner class OfferService.
-        This is the behaviour used by Participant agents to serve incoming requests 
-        for offer from Initiator agents.
-    */
+     * Inner class OfferService. This is the behaviour used by Participant agents to
+     * serve incoming requests for offer from Initiator agents.
+     */
     private class OfferService extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
@@ -109,12 +83,13 @@ public class Participant extends Agent {
                 String title = msg.getContent();
                 ACLMessage reply = msg.createReply();
 
-                if (title.equals(service_name)){
+                if (title.equals(service_name)) {
                     reply.setPerformative(ACLMessage.PROPOSE);
                     price = ThreadLocalRandom.current().nextInt(0, 1000);
                     reply.setContent(String.valueOf(price));
                     if (DEBUG == true)
-                        System.out.println(getAID().getName() + " offered to work for " + msg.getSender().getName() + " for price " + price);
+                        System.out.println(getAID().getName() + " offered to work for " + msg.getSender().getName()
+                                + " for price " + price);
                 } else {
                     // The requested book is NOT available for sale.
                     reply.setPerformative(ACLMessage.REFUSE);
@@ -128,10 +103,9 @@ public class Participant extends Agent {
     } // End of inner class OfferService
 
     /**
-        Inner class HiringServer.
-        This is the behaviour used by Participant agents to serve incoming 
-        offer acceptances from Initiator agents.
-    */
+     * Inner class HiringServer. This is the behaviour used by Participant agents to
+     * serve incoming offer acceptances from Initiator agents.
+     */
     private class HiringServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
@@ -141,7 +115,7 @@ public class Participant extends Agent {
                 String serviceName = msg.getContent();
                 ACLMessage reply = msg.createReply();
 
-                if(serviceName.equals(service_name)){
+                if (serviceName.equals(service_name)) {
                     reply.setPerformative(ACLMessage.INFORM);
                     if (DEBUG == true)
                         System.out.println(getAID().getName() + " hired by agent " + msg.getSender().getName());

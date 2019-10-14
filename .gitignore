@@ -1,6 +1,9 @@
 # macOS Finder file
 .DS_Store
 
+# VSCode files
+launch.json
+
 # Temp files created by jedit
 *.asl~
 *.mas2j~
