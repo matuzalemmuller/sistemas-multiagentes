@@ -21,11 +21,14 @@ MAS cnp {
     infrastructure: Centralised
 
     agents:
-        c #2;     // the CNP initiator
+	    initiator #30;
+		mainInitiator;
+		participant #100;
+        //c #2;     // the CNP initiator
         //[mindinspector="gui(cycle,html,history)"];    // you can store the minds on files with [mindinspector="file(cycle,xml,log)"]
 
-		p_apple #2;
-		p_avocado;		
+		//p_apple #2;
+		//p_avocado;		
 		//p_banana;
 		//p_blackberry;
 		//p_orange;

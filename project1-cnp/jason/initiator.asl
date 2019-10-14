@@ -9,7 +9,7 @@ codFunc(6,locksmith).
 codFunc(7,programmer).
 codFunc(8,postman).
 codFunc(9,banker).
-count(10).
+
 
 all_proposals_received(CNPId)
   :- nb_participants(CNPId,NP) &                 // number of participants
@@ -18,9 +18,8 @@ all_proposals_received(CNPId)
      NP = NO + NR.
 
 /* Initial goals */
-!start.
 
-!register.
++requisitions(X) <- +count(X).
 
 +!start : count(N) & N > 0 <-  .random(R1); //First random number to get the profession
             Cod = math.floor(10*R1);
@@ -30,7 +29,7 @@ all_proposals_received(CNPId)
             !startCNP(A,Nome);
             +count(C);
             !start.
-            
+
 +!start <- .print("Finished creating CFPs.").
 
 +!register <- .df_register(initiator).
