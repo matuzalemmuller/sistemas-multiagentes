@@ -26,7 +26,6 @@ public class Participant extends Agent {
     // Price of service provided by this agent
     private int price;
 
-    // Put agent initializations here
     protected void setup() {
         Object[] args = getArguments();
         DEBUG = Boolean.valueOf(args[0].toString());
@@ -38,7 +37,7 @@ public class Participant extends Agent {
         if (DEBUG == true)
             System.out.println(getAID().getName() + " will work as " + this.service_name);
 
-        // Register the book-selling service in the yellow pages
+        // Register the service in the yellow pages
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
@@ -58,7 +57,6 @@ public class Participant extends Agent {
         addBehaviour(new HiringServer());
     }
 
-    // Put agent clean-up operations here
     protected void takeDown() {
         // Deregister from the yellow pages
         try {
@@ -66,21 +64,18 @@ public class Participant extends Agent {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-        // Printout a dismissal message
         if (DEBUG == true)
             System.out.println(getAID().getName() + " terminating.");
     }
 
     /**
-     * Inner class OfferService. This is the behaviour used by Participant agents to
-     * serve incoming requests for offer from Initiator agents.
+     * Ihis is the behaviour used by Participant agents to serve incoming requests for offer from Initiator agents.
      */
     private class OfferService extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.CFP);
             ACLMessage msg = myAgent.receive(mt);
             if (msg != null) {
-                // CFP Message received. Process it
                 String title = msg.getContent();
                 ACLMessage reply = msg.createReply();
 
@@ -92,7 +87,6 @@ public class Participant extends Agent {
                         System.out.println(getAID().getName() + " offered to work for " + msg.getSender().getName()
                                 + " for price " + price);
                 } else {
-                    // The requested book is NOT available for sale.
                     reply.setPerformative(ACLMessage.REFUSE);
                     reply.setContent("not-available");
                 }
@@ -101,18 +95,16 @@ public class Participant extends Agent {
                 block();
             }
         }
-    } // End of inner class OfferService
+    } 
 
     /**
-     * Inner class HiringServer. This is the behaviour used by Participant agents to
-     * serve incoming offer acceptances from Initiator agents.
+     * This is the behaviour used by Participant agents to serve incoming offer acceptances from Initiator agents.
      */
     private class HiringServer extends CyclicBehaviour {
         public void action() {
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
             ACLMessage msg = myAgent.receive(mt);
             if (msg != null) {
-                // ACCEPT_PROPOSAL Message received. Process it
                 String serviceName = msg.getContent();
                 ACLMessage reply = msg.createReply();
 
@@ -121,7 +113,6 @@ public class Participant extends Agent {
                     if (DEBUG == true)
                         System.out.println(getAID().getName() + " hired by agent " + msg.getSender().getName());
                 } else {
-                    // Participant does not work in this profession
                     reply.setPerformative(ACLMessage.FAILURE);
                     reply.setContent("not-available");
                 }
@@ -130,6 +121,6 @@ public class Participant extends Agent {
                 block();
             }
         }
-    } // End of inner class OfferService
+    } 
 
-} // end of the agent class
+} 

@@ -1,28 +1,34 @@
+/*
+    Creates multiple Initiators and Participants to test MAS
+*/
+
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 
-public class Test {
+public class Tester {
 
     ContainerController cc;
-    private int initiators = 200;
-    private int participants = 50;
-    private int num_services_requested = 10;
-    private boolean DEBUG = false;
+    private int initiators = 3;
+    private int participants = 5;
+    private int num_services_requested = 3;
+    private boolean DEBUG = true;
 
+    // Starts testing
     public static void main(String[] args) {
-        Test test = new Test();
+        Tester tester = new Tester();
 
         try {
-            test.createContainer();
-            test.createAgents();   
+            tester.createContainer();
+            tester.createAgents();   
         } catch (Exception e){
             System.out.println(e);
         }
     }
 
+    // Creates JADE container
     void createContainer() {
         ProfileImpl p = new ProfileImpl();
         p.setParameter(Profile.MAIN_HOST, "localhost");
@@ -30,9 +36,10 @@ public class Test {
         cc = Runtime.instance().createMainContainer(p);
     }
 
+    // Creates Initiators, Participants and Wather to kill container at the end of execution
     void createAgents() {
         try {
-            AgentController watcherAgent = cc.createNewAgent("Watcher", "Watcher", new Object[] { cc });
+            AgentController watcherAgent = cc.createNewAgent("Watcher", "Watcher", new Object[] { DEBUG, cc });
             watcherAgent.start();
 
             for (int i=1; i<=participants; i++) {

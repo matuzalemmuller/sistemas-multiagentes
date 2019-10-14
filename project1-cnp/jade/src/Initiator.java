@@ -27,7 +27,6 @@ public class Initiator extends Agent {
     // The list of known seller agents
     private AID[] participantAgents;
 
-    // Put agent initializations here
     protected void setup() {
         Object[] args = getArguments();
         DEBUG = Boolean.valueOf(args[0].toString());
@@ -75,22 +74,19 @@ public class Initiator extends Agent {
         });
     }
 
-    // Put agent clean-up operations here
     protected void takeDown() {
-        // Printout a dismissal message
         if (DEBUG == true)
             System.out.println(getAID().getName() + " terminating.");
     }
 
     /**
-     * Inner class RequestPerformer. This is the behaviour used by Initiator agents
-     * to hire Participant agents
+     * This is the behaviour used by Initiator agents to hire Participant agents
      */
     private class RequestPerformer extends Behaviour {
-        private AID bestParticipant; // The agent who provides the best offer
-        private int bestPrice; // The best offered price
-        private int repliesCnt = 0; // The counter of replies from seller agents
-        private MessageTemplate mt; // The template to receive replies
+        private AID bestParticipant; 
+        private int bestPrice; 
+        private int repliesCnt = 0; 
+        private MessageTemplate mt; 
         private int step = 0;
         private String serviceName;
 
@@ -109,30 +105,24 @@ public class Initiator extends Agent {
                 }
                 cfp.setContent(serviceName);
                 cfp.setConversationId("service-hire");
-                cfp.setReplyWith("cfp" + System.currentTimeMillis()); // Unique value
+                cfp.setReplyWith("cfp" + System.currentTimeMillis()); 
                 myAgent.send(cfp);
-                // Prepare the template to get proposals
                 mt = MessageTemplate.and(MessageTemplate.MatchConversationId("service-hire"),
                         MessageTemplate.MatchInReplyTo(cfp.getReplyWith()));
                 step = 1;
                 break;
             case 1:
-                // Receive all proposals/refusals from seller agents
                 ACLMessage reply = myAgent.receive(mt);
                 if (reply != null) {
-                    // Reply received
                     if (reply.getPerformative() == ACLMessage.PROPOSE) {
-                        // This is an offer
                         int price = Integer.parseInt(reply.getContent());
                         if (bestParticipant == null || price < bestPrice) {
-                            // This is the best offer at present
                             bestPrice = price;
                             bestParticipant = reply.getSender();
                         }
                     }
                     repliesCnt++;
                     if (repliesCnt >= participantAgents.length) {
-                        // We received all replies
                         step = 2;
                     }
                 } else {
@@ -140,25 +130,20 @@ public class Initiator extends Agent {
                 }
                 break;
             case 2:
-                // Send the purchase order to the seller that provided the best offer
                 ACLMessage order = new ACLMessage(ACLMessage.ACCEPT_PROPOSAL);
                 order.addReceiver(bestParticipant);
                 order.setContent(serviceName);
                 order.setConversationId("service-hire");
                 order.setReplyWith("order" + System.currentTimeMillis());
                 myAgent.send(order);
-                // Prepare the template to get the purchase order reply
                 mt = MessageTemplate.and(MessageTemplate.MatchConversationId("service-hire"),
                         MessageTemplate.MatchInReplyTo(order.getReplyWith()));
                 step = 3;
                 break;
             case 3:
-                // Receive the purchase order reply
                 reply = myAgent.receive(mt);
                 if (reply != null) {
-                    // Purchase order reply received
                     if (reply.getPerformative() == ACLMessage.INFORM) {
-                        // Purchase successful. We can terminate
                         if (DEBUG == true) {
                             System.out.println(getAID().getName() + " successfully hired agent "
                                     + reply.getSender().getName() + " as " + serviceName);
@@ -191,5 +176,5 @@ public class Initiator extends Agent {
             }
             return ((step == 2 && bestParticipant == null) || step == 5);
         }
-    } // End of inner class RequestPerformer
+    } 
 }

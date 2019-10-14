@@ -1,3 +1,6 @@
+/*
+    Agent that kill MainContainer once there are no Initiators running
+*/
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.*;
@@ -11,12 +14,15 @@ import jade.wrapper.ContainerController;
 public class Watcher extends Agent {
 
     private ContainerController cc;
+    private boolean DEBUG = true;
 
     protected void setup() {
+        Object[] args = getArguments();
+        DEBUG = Boolean.valueOf(args[0].toString());
+        cc = (ContainerController) getArguments()[1];
+
         if (DEBUG == true)
             System.out.println("Starting simulation");
-
-        cc = (ContainerController) getArguments()[0];
 
         addBehaviour(new OneShotBehaviour() {
             public void action() {
