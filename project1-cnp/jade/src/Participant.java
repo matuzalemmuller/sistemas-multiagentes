@@ -67,7 +67,8 @@ public class Participant extends Agent {
             fe.printStackTrace();
         }
         // Printout a dismissal message
-        System.out.println("Participant " + getAID().getName() + " terminating.");
+        if (DEBUG == true)
+            System.out.println(getAID().getName() + " terminating.");
     }
 
     /**

@@ -1,3 +1,12 @@
+## Description
+
+* `Test.java`: automates agents initialization
+* `Watcher.java`: kills JADE container after initiators are terminated
+* `Initiator.java`: implements initiator
+* `Participant.java`: implements participant
+
+## Instructions
+
 To run JADE code:
 
 ```

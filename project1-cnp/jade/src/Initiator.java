@@ -78,7 +78,8 @@ public class Initiator extends Agent {
     // Put agent clean-up operations here
     protected void takeDown() {
         // Printout a dismissal message
-        System.out.println(getAID().getName() + " terminating.");
+        if (DEBUG == true)
+            System.out.println(getAID().getName() + " terminating.");
     }
 
     /**
