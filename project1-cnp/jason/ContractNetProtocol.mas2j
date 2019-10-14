@@ -21,7 +21,7 @@ MAS cnp {
     infrastructure: Centralised
 
     agents:
-	    initiator #30;
+	    initiator #2;
 		mainInitiator;
 		participant #100;
         //c #2;     // the CNP initiator

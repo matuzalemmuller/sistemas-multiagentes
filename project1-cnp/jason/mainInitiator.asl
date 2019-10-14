@@ -3,7 +3,7 @@
 /* Initial beliefs and rules */
 start(initiator1,3).
 start(initiator2,2).
-start(initiator3,2).
+/*start(initiator3,2).
 start(initiator4,2).
 start(initiator5,2).
 start(initiator6,2).
@@ -30,7 +30,9 @@ start(initiator26,2).
 start(initiator27,2).
 start(initiator28,2).
 start(initiator29,2).
-start(initiator30,2).
+start(initiator30,2).*/
+count(0).
+total(2).
 
 /* Initial goals */
 
@@ -44,4 +46,9 @@ start(initiator30,2).
                   -start(Name,Requisitions);
                   !start.
 
+
 +!start <- .print("Finished Sending Requisitions.").
+
++!count :count(X) & total(Total) & X < Total-1 <- -+count(X+1).
+
++!count <- .stopMAS.

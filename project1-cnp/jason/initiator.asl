@@ -19,7 +19,8 @@ all_proposals_received(CNPId)
 
 /* Initial goals */
 
-+requisitions(X) <- +count(X).
++requisitions(X) <- +count(X);
+                    +sum(X).
 
 +!start : count(N) & N > 0 <-  .random(R1); //First random number to get the profession
             Cod = math.floor(10*R1);
@@ -48,6 +49,12 @@ all_proposals_received(CNPId)
       // the deadline of the CNP is now + 4 seconds (or all proposals were received)
       .wait(all_proposals_received(Id), 4000, _);
       !contract(Id).
+
++cnp_state(_,finished) :
+         .count(cnp_state(_,finished),Total) &
+         sum(X) &
+         Total == X
+         <- .send(mainInitiator,achieve,count).
 
 // this plan needs to be atomic so as not to accept
 // proposals or refusals while contracting
