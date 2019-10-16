@@ -9,6 +9,7 @@ codFunc(6,locksmith).
 codFunc(7,programmer).
 codFunc(8,postman).
 codFunc(9,banker).
+//requests(1).
 
 all_proposals_received(CNPId) :-
         nb_participants(CNPId,NP) &                     // number of participants
@@ -19,6 +20,9 @@ all_proposals_received(CNPId) :-
 // Registers initiator to yellow pages and asks the watcher how many requests
 // will be made to hire services
 !start.
+
++!start : requests(X) <-
+        .df_register(initiator).
 
 +!start : true <-
         .df_register(initiator);

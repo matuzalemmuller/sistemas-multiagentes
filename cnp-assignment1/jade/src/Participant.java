@@ -80,7 +80,7 @@ public class Participant extends Agent {
 
                 if (title.equals(service_name)) {
                     reply.setPerformative(ACLMessage.PROPOSE);
-                    price = ThreadLocalRandom.current().nextInt(0, 1000);
+                    price = ThreadLocalRandom.current().nextInt(0, 100);
                     reply.setContent(String.valueOf(price));
                     if (DEBUG == true)
                         System.out.println(getAID().getName() + " offered to work for " + msg.getSender().getName()

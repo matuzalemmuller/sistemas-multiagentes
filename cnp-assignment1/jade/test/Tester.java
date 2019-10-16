@@ -14,9 +14,9 @@ import jade.wrapper.ContainerController;
 public class Tester {
 
     ContainerController cc;
-    private int initiators = 3;
-    private int participants = 5;
-    private int num_services_requested = 3;
+    private int initiators = 1;
+    private int participants = 1;
+    private int num_services_requested = 2;
     private boolean DEBUG = true;
 
     // Starts testing
