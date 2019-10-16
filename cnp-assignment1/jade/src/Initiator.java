@@ -1,3 +1,4 @@
+package src;
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.*;
@@ -7,9 +8,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-
 import java.security.Provider.Service;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

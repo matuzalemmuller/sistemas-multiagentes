@@ -2,7 +2,7 @@
 .DS_Store
 
 # VSCode files
-launch.json
+.vscode
 
 # Temp files created by jedit
 *.asl~

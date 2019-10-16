@@ -1,6 +1,7 @@
 /*
     Agent that kill MainContainer once there are no Initiators running
 */
+package src;
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.*;

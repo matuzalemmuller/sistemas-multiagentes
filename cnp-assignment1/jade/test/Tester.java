@@ -1,7 +1,10 @@
 /*
     Creates multiple Initiators and Participants to test MAS
 */
-
+package test;
+import src.Initiator;
+import src.Participant;
+import src.Watcher;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -39,16 +42,16 @@ public class Tester {
     // Creates Initiators, Participants and Wather to kill container at the end of execution
     void createAgents() {
         try {
-            AgentController watcherAgent = cc.createNewAgent("Watcher", "Watcher", new Object[] { DEBUG, cc });
+            AgentController watcherAgent = cc.createNewAgent("Watcher", "src.Watcher", new Object[] { DEBUG, cc });
             watcherAgent.start();
 
             for (int i=1; i<=participants; i++) {
-                AgentController participantAgent = cc.createNewAgent("Participant"+i, "Participant", new Object[] { DEBUG });
+                AgentController participantAgent = cc.createNewAgent("Participant"+i, "src.Participant", new Object[] { DEBUG });
                 participantAgent.start();
             }
 
             for (int i=1; i<=initiators; i++) {
-                AgentController initiatorAgent = cc.createNewAgent("Initiator"+i, "Initiator", new Object[] { DEBUG, num_services_requested });
+                AgentController initiatorAgent = cc.createNewAgent("Initiator"+i, "src.Initiator", new Object[] { DEBUG, num_services_requested });
                 initiatorAgent.start();
             }
         } catch (Exception e){
