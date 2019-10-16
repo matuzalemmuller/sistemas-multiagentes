@@ -78,7 +78,7 @@ def start_jason(project_dir):
         for line in text:
             file.write(line)
             file.write('\n')
-    
+
     print("Finished JASON CNP...")
 
 def main():

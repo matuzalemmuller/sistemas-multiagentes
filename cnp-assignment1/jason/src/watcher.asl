@@ -1,4 +1,4 @@
-requests(3).				// number of CNPs performed by each initiator
+requests(1).				// number of CNPs performed by each initiator
 
 !start.
 

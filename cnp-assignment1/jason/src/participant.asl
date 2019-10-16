@@ -23,16 +23,16 @@ codFunc(9,banker).
         ?codFunc(Cod,Name);
         +service(Name).                    // saves service offered
 
-        
+
 @c1 +cfp(CNPId,Task)[source(A)] : provider(A,"initiator") & service(Task) <-
         .random(N);
         P = math.floor(100*N);				// creates random price
         +proposal(CNPId,Task,P); 			// remember my proposal
         .send(A,tell,propose(CNPId,Task,P)).
 
-@r1 +accept_proposal(CNPId)[source(A)] :  proposal(CNPId,Task,Offer) <-
-        .print("    My proposal '",Offer,"' won CNP ",CNPId, " for ",Task, " from ", A, "!").
+//@r1 +accept_proposal(CNPId)[source(A)] :  proposal(CNPId,Task,Offer) <-
+//       .print("    My proposal '",Offer,"' won CNP ",CNPId, " for ",Task, " from ", A, "!").
 
 @r2 +reject_proposal(CNPId)[source(A)] <-
-        .print("    I lost CNP ",CNPId, " from ", A, ".");
+        //.print("    I lost CNP ",CNPId, " from ", A, ".");
         -proposal(CNPId,_,_).

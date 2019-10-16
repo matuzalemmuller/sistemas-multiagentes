@@ -35,7 +35,7 @@ all_proposals_received(CNPId) :-
         !request_cnp.
 
 // Starts N CNPs
-+!request_cnp : count(N) & N > 0 <- 
++!request_cnp : count(N) & N > 0 <-
         .random(R1);                // randomizes profession selection
         Cod = math.floor(10*R1);
         -count(A);
@@ -47,16 +47,16 @@ all_proposals_received(CNPId) :-
 
 // Alerts watcher that agent has finished negotiations
 +!request_cnp <-
-        .print("Finished creating CFPs.");
+        //.print("Finished creating CFPs.");
         .send(watcher,achieve,initiator_finished).
 
 // Starts the CNP
 +!startCNP(Id,Task) <-
-        .print(Task, ":    Waiting participants...");
+        //.print(Task, ":    Waiting participants...");
         .wait(2000);                                // waits for participants to register to yellow pages
         +cnp_state(Id,propose);
         .df_search("participant",LP);
-        .print(Task, ":    Sending CFP to ",LP);
+        //.print(Task, ":    Sending CFP to ",LP);
         +nb_participants(Id,.length(LP));
         .send(LP,tell,cfp(Id,Task));                // sends CFP
         .wait(all_proposals_received(Id), 4000, _);
@@ -72,15 +72,15 @@ all_proposals_received(CNPId) :-
         //.print("    Offers are ",L);
         L \== [];
         .min(L,offer(WOf,WT, WAg));
-        .print(WT, ":    Winner is ", WAg," with ",WOf);
+        //.print(WT, ":    Winner is ", WAg," with ",WOf);
         !announce_result(CNPId,L,WAg);
         -+cnp_state(CNPId,finished).
 
 // nothing todo, the current phase is not 'propose'
 @lc2 +!contract(_).
 
--!contract(CNPId) <-
-        .print("    CNP ",CNPId," has failed!").
+-!contract(CNPId). //<-
+//        .print("    CNP ",CNPId," has failed!").
 
 +!announce_result(_,[],_).
 

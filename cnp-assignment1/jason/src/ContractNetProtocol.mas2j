@@ -6,5 +6,5 @@ MAS cnp {
         initiator #1;
         watcher;
         participant #1;
-        
+
 }

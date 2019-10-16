@@ -16,7 +16,7 @@ public class Tester {
     ContainerController cc;
     private int initiators = 1;
     private int participants = 1;
-    private int num_services_requested = 2;
+    private int num_services_requested = 1;
     private boolean DEBUG = true;
 
     // Starts testing
@@ -25,7 +25,7 @@ public class Tester {
 
         try {
             tester.createContainer();
-            tester.createAgents();   
+            tester.createAgents();
         } catch (Exception e){
             System.out.println(e);
         }
@@ -35,7 +35,7 @@ public class Tester {
     void createContainer() {
         ProfileImpl p = new ProfileImpl();
         p.setParameter(Profile.MAIN_HOST, "localhost");
-        
+
         cc = Runtime.instance().createMainContainer(p);
     }
 
