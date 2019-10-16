@@ -25,8 +25,8 @@ codFunc(9,banker).
 
         
 @c1 +cfp(CNPId,Task)[source(A)] : provider(A,"initiator") & service(Task) <-
-		.random(N);
-		P = math.floor(100*N);				// creates random price
+        .random(N);
+        P = math.floor(100*N);				// creates random price
         +proposal(CNPId,Task,P); 			// remember my proposal
         .send(A,tell,propose(CNPId,Task,P)).
 

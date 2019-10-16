@@ -46,7 +46,6 @@ all_proposals_received(CNPId) :-
         .print("Finished creating CFPs.");
         .send(watcher,achieve,initiator_finished).
 
-
 // Starts the CNP
 +!startCNP(Id,Task) <-
         .print(Task, ":    Waiting participants...");

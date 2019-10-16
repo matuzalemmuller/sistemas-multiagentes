@@ -4,44 +4,81 @@ import subprocess
 import time
 from threading import Thread
 
-def start_jade():
-    os.chdir('jade')
+# Runs jade code and saves CPU and memory usage data
+def start_jade(project_dir):
+    print("Starting JADE CNP...")
+    os.chdir(project_dir+'/jade')
+
+    # Start subprocess
     FNULL = open(os.devnull, 'w')
     p = subprocess.Popen(['java', '-cp', "lib/jade-4.3.jar:.", "test.Tester"], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
     pid = p.pid
     process = psutil.Process(pid)
-    
+
+    # Store memory and CPU usage in RAM
+    text = []
     while(p.poll() == None):
-        mem = process.memory_info().rss/1048576
         cpu = psutil.cpu_percent()
-        print(str(cpu) + " , " + str(mem))
+        mem = process.memory_info().rss/1048576
+        text.append(str(cpu) + " , " + str(mem))
         time.sleep(1)
 
+    # Save memory and CPU usage data to results file
+    with open('../benchmark/jade_results.csv','w+') as file:
+        file.write("JADE:CPU,JADE:Memory")
+        file.write('\n')
+        for line in text:
+            file.write(line)
+            file.write('\n')
+    print("Finished JADE CNP...")
 
-def start_jason():
-    # os.chdir('jade')
-    # FNULL = open(os.devnull, 'w')
-    # p = subprocess.Popen(['java', '-cp', "lib/jade-4.3.jar:.", "test.Tester"], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
-    # pid = p.pid
-    # process = psutil.Process(pid)
+# Runs jason code and saves CPU and memory usage data
+def start_jason(project_dir):
+    print("Starting JASON CNP...")
+    os.chdir(project_dir+'/jason/src')
+
+    # Start subprocess
+    FNULL = open(os.devnull, 'w')
+    p = subprocess.Popen(['jason', 'ContractNetProtocol.mas2j'], stdout=FNULL, stderr=subprocess.STDOUT, shell=False)
+
+    # Locate PID of RunCentralisedMAS process, which is running the jason code
+    pid = 0
+    has_pid = False
+    while(not has_pid):
+        child = subprocess.Popen(['pgrep', '-f', "RunCentralisedMAS"], stdout=subprocess.PIPE, shell=False)
+        response = child.communicate()[0]
+        if response:
+            gg = response.split()
+            result = 0
+            for b in gg:
+                result = result * 256 + int(b)
+            pid = result
+            has_pid = True
+
+    process = psutil.Process(pid)
+
+    # Store memory and CPU usage in RAM
+    text = []
+    while(p.poll() == None):
+        cpu = psutil.cpu_percent()
+        mem = process.memory_info().rss/1048576
+        text.append(str(cpu) + " , " + str(mem))
+        time.sleep(1)
+
+    # Save memory and CPU usage data to results file
+    with open('../../benchmark/jason_results.csv','w+') as file:
+        file.write("JASON:CPU,JASON:Memory")
+        file.write('\n')
+        for line in text:
+            file.write(line)
+            file.write('\n')
     
-    # while(p.poll() == None):
-    #     mem = process.memory_info().rss/1048576
-    #     cpu = psutil.cpu_percent()
-    #     print(str(cpu) + " , " + str(mem))
-    #     time.sleep(1)
-    pass
-
+    print("Finished JASON CNP...")
 
 def main():
-    jade_thread = Thread(target = start_jade)
-    jade_thread.start()
-    jade_thread.join()
-
-    jason_thread = Thread(target = start_jason)
-    jason_thread.start()
-    jason_thread.join()
-
+    project_dir = os.getcwd()
+    start_jade(project_dir)
+    start_jason(project_dir)
 
 if __name__ == '__main__':
     main()
