@@ -9,7 +9,7 @@
 
 * Unix-like operating system
 * [Java 8 or later](https://www.java.com/en/download/)
-* [Make 3.81 or later](https://www.gnu.org/software/make/)
+* [Make](https://www.gnu.org/software/make/)
 
 ## Instructions
 
