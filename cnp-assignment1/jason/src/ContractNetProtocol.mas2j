@@ -1,0 +1,10 @@
+MAS cnp {
+
+    infrastructure: Centralised
+
+    agents:
+	    initiator #4;
+		watcher;
+		participant #5;
+		
+}
