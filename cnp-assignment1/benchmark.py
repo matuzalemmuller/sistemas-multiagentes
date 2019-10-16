@@ -17,16 +17,18 @@ def start_jade(project_dir):
 
     # Store memory and CPU usage in RAM
     text = []
+    sec = 0
     while(p.poll() == None):
         cpu = psutil.cpu_percent()
         mem = process.memory_info().rss/1048576
-        text.append(str(cpu) + " , " + str(mem))
+        text.append(str(sec) +  "," + str(cpu) + "," + str(mem))
         time.sleep(1)
+        sec += 1
 
     # Save memory and CPU usage data to results file
     os.makedirs(os.path.dirname('../benchmark/jade_results.csv'), exist_ok=True)
     with open('../benchmark/jade_results.csv','w+') as file:
-        file.write("JADE:CPU,JADE:Memory")
+        file.write("TIME,JADE:CPU,JADE:Memory")
         file.write('\n')
         for line in text:
             file.write(line)
@@ -60,16 +62,18 @@ def start_jason(project_dir):
 
     # Store memory and CPU usage in RAM
     text = []
+    sec = 0
     while(p.poll() == None):
         cpu = psutil.cpu_percent()
         mem = process.memory_info().rss/1048576
-        text.append(str(cpu) + " , " + str(mem))
+        text.append(str(sec) +  "," + str(cpu) + "," + str(mem))
         time.sleep(1)
+        sec += 1
 
     # Save memory and CPU usage data to results file
     os.makedirs(os.path.dirname('../benchmark/jason_results.csv'), exist_ok=True)
     with open('../../benchmark/jason_results.csv','w+') as file:
-        file.write("JASON:CPU,JASON:Memory")
+        file.write("TIME,JASON:CPU,JASON:Memory")
         file.write('\n')
         for line in text:
             file.write(line)
