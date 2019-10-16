@@ -4,9 +4,8 @@
 # VSCode files
 .vscode
 
-# Temp files created by jedit
-*.asl~
-*.mas2j~
+# Virtualenv directory
+env
 
 # Compiled java files
 *.class
@@ -14,3 +13,10 @@
 # JADE files
 APDescription.txt
 MTPs-Main-Container.txt
+
+# Jason files
+cnp-assignment1/jason/src/bin
+
+# Temp files created by jedit
+*.asl~
+*.mas2j~
