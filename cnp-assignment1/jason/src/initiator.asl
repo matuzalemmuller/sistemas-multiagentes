@@ -10,13 +10,11 @@ codFunc(7,programmer).
 codFunc(8,postman).
 codFunc(9,banker).
 
-
 all_proposals_received(CNPId) :-
         nb_participants(CNPId,NP) &                     // number of participants
         .count(propose(CNPId,_,_)[source(_)], NO) &       // number of proposes received
         .count(refuse(CNPId)[source(_)], NR) &          // number of refusals received
         NP = NO + NR.
-
 
 // Registers initiator to yellow pages and asks the watcher how many requests
 // will be made to hire services
@@ -38,8 +36,8 @@ all_proposals_received(CNPId) :-
         Cod = math.floor(10*R1);
         -count(A);
         C = A - 1;
-        ?codFunc(Cod,Nome);
-        !startCNP(A,Nome);            // creates CNP
+        ?codFunc(Cod,Name);
+        !startCNP(A,Name);            // creates CNP
         +count(C);
         !request_cnp.
 
@@ -60,7 +58,6 @@ all_proposals_received(CNPId) :-
         .send(LP,tell,cfp(Id,Task));                // sends CFP
         .wait(all_proposals_received(Id), 4000, _);
         !contract(Id).
-
 
 // this plan needs to be atomic so as not to accept
 // proposals or refusals while contracting

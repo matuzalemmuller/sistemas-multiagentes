@@ -21,16 +21,18 @@ codFunc(9,banker).
         .random(P);                        // randomizes price
         X = (100*P);
         ?codFunc(Cod,Name);
-        +price(Name,P).                    // saves price for service
+        +service(Name).                    // saves service offered
 
         
-@c1 +cfp(CNPId,Task)[source(A)] : provider(A,"initiator") & price(Task,Offer) <-
-        +proposal(CNPId,Task,Offer); // remember my proposal
-        .send(A,tell,propose(CNPId,Task,Offer)).
+@c1 +cfp(CNPId,Task)[source(A)] : provider(A,"initiator") & service(Task) <-
+		.random(N);
+		P = math.floor(100*N);				// creates random price
+        +proposal(CNPId,Task,P); 			// remember my proposal
+        .send(A,tell,propose(CNPId,Task,P)).
 
 @r1 +accept_proposal(CNPId)[source(A)] :  proposal(CNPId,Task,Offer) <-
         .print("    My proposal '",Offer,"' won CNP ",CNPId, " for ",Task, " from ", A, "!").
 
 @r2 +reject_proposal(CNPId)[source(A)] <-
         .print("    I lost CNP ",CNPId, " from ", A, ".");
-        -proposal(CNPId,_,_). // clear memory
+        -proposal(CNPId,_,_).

@@ -1,4 +1,4 @@
-requests(2).
+requests(20).				// number of CNPs performed by each initiator
 
 !start.
 
@@ -13,9 +13,9 @@ requests(2).
 // Stops simulation after all negotiations are completed
 @lc1[atomic]
 +!initiator_finished :
-    count(N) & N > 1 <-
-    -count(A);
-    C = A - 1;
-    +count(C).
-    
+        count(N) & N > 1 <-
+        -count(A);
+        C = A - 1;
+        +count(C).
+
 +!initiator_finished <- .stopMAS.
