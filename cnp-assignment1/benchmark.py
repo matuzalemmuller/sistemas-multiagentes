@@ -24,6 +24,7 @@ def start_jade(project_dir):
         time.sleep(1)
 
     # Save memory and CPU usage data to results file
+    os.makedirs(os.path.dirname('../benchmark/jade_results.csv'), exist_ok=True)
     with open('../benchmark/jade_results.csv','w+') as file:
         file.write("JADE:CPU,JADE:Memory")
         file.write('\n')
@@ -66,6 +67,7 @@ def start_jason(project_dir):
         time.sleep(1)
 
     # Save memory and CPU usage data to results file
+    os.makedirs(os.path.dirname('../benchmark/jason_results.csv'), exist_ok=True)
     with open('../../benchmark/jason_results.csv','w+') as file:
         file.write("JASON:CPU,JASON:Memory")
         file.write('\n')
