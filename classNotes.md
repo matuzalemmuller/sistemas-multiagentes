@@ -18,3 +18,26 @@ Class notes from Multiagent Systems Course @ PGEAS: http://jomi.das.ufsc.br/mas/
 * _White pages_: agent X can be reached at Y
     * name (symbolic) + address (physical)
 * _Yellow pages_: address of agent X that does Y
+
+## Organization
+
+* Defines pattern of agent cooperation
+
+Conceituação
+* Especificação (Pós-graduação)
+** Estrutural: Grupo, Papel (definido quando entra na organização: aluno, prof)
+** Funcional: Schema, Missão, Objetivos
+   Quais são os objetivos e como são decompostos (da organização, não dos agentes!)
+					T(a1)			|
+					  \				|	Schema e objetivos
+						Y(a2)		|
+					   /  \			|
+					 Z(a1) X(a1)		|	a1, a2: Missões (agentes que são responsáveis pelos objetivos)
+    Agentes se comprometem a alcançar os objetivos
+    Schema só começa a ser "executado" quando há agentes suficientes para todas as missões (caso contrário, os objetivos não serão cumpridos)
+
+** Normativa: Normas (Agente A tem que fazer B: mestrando precisa apresentar dissertação; professor é permitido a participar de banca)
+   Proibições, permissões e obrigações para papeis
+
+
+* Entidade (PGEAS): instância da especificação
