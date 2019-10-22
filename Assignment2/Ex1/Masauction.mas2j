@@ -1,0 +1,10 @@
+MAS auction {
+
+    infrastructure: Centralised
+
+    agents:
+      auction;
+      bidder #4;
+
+
+}
