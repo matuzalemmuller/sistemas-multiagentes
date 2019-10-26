@@ -18,9 +18,13 @@ MTPs-Main-Container.txt
 *.asl~
 *.mas2j~
 
-############ Project 1 ############
+############ Assignment 1 ############
 # Jason files
 cnp-assignment1/jason/src/bin
 jade_results.csv
 jason_results.csv
 notes.txt
+
+
+############ Assignment 2 ############
+jpn_auction-assignment2/jason/src/bin
