@@ -8,4 +8,4 @@ The auction has been implemented using three differents approaches:
 
 * Agent-only logic: implemented in the `ja` folder
 * Agent & Environment logic: implemented in the `jaca` folder
-* Agent, Environment & Organisation: implemented in the `jacamo` folder
+* Agent, Environment & Organisation logic: implemented in the `jacamo` folder

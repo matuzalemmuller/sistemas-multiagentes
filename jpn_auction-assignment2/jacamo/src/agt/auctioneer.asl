@@ -8,8 +8,8 @@
     startAuction(Price).
 
 +!auction : numBidders(N) & N > 1 <-
-	?increment(I);
-	?price(Price);
+    ?increment(I);
+    ?price(Price);
     P = Price + I;
     .print("Bid at ", P);
     inc(I);
@@ -17,7 +17,7 @@
     !auction.
 
 +!auction : numBidders(N) & N == 1 <-
-	?winner(Winner);
+    ?winner(Winner);
     .print("Auction complete. Winner is ", Winner).
 
 +!auction : numBidders(N) & N < 1 <-

@@ -20,4 +20,4 @@ To run the JaCaMo program:
     ```
     jacamo jacamo.jcm
     ```
-* Alternatively, you can use the [JaCaMo Eclipe Plugin](http://jacamo.sourceforge.net/eclipseplugin/tutorial/) to run the program in Eclipse.
+* Alternatively, you can use the [JaCaMo Eclipse Plugin](http://jacamo.sourceforge.net/eclipseplugin/tutorial/) to run the program in Eclipse.
