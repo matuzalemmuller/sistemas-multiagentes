@@ -1,6 +1,6 @@
-!start.
+!join.
 
-+!start <-
++!join <-
     .random(R1);
     S = R1 * 10;
     Amount = math.ceil(S);

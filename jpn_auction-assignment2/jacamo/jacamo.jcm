@@ -1,4 +1,4 @@
-mas jaca {
+mas jacamo {
 
     // Agents initialization
     agent auctioneer: auctioneer.asl{
@@ -16,6 +16,18 @@ mas jaca {
     // Environment workspaces
      workspace room {
         artifact product : auction.artifact()
+    }
+
+    // Organisation 
+    organisation auction_org: auction.xml {
+        group auction_group: auction_group {
+            responsible-for: auction_inst
+            players: auctioneer auctioneer,
+                     bidder bidder
+        }
+        scheme auction_inst : auction_scheme {
+            debug
+        }
     }
 
 }

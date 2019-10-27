@@ -1,12 +1,11 @@
 { include("$jacamoJar/templates/common-cartago.asl") }
-
-!wait_for_people_to_join.
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamoJar/templates/org-obedient.asl") }
 
 +!wait_for_people_to_join <-
     .wait(4000);
     -startPrice(Price);
-    startAuction(Price);
-     !auction.
+    startAuction(Price).
 
 +!auction : numBidders(N) & N > 1 <-
 	?increment(I);
