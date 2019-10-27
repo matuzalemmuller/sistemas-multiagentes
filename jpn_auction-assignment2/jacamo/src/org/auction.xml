@@ -32,7 +32,7 @@
             <plan operator="sequence">
                 <goal id="wait_for_people_to_join" ttf="10 seconds" />
                 <goal id="join" ttf="10 seconds" />
-                <goal id="auction"  ttf="5 minutes" />
+                <goal id="auction"  ttf="30 minutes" />
             </plan>
         </goal>
 

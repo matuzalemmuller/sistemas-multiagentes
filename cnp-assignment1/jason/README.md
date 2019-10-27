@@ -9,7 +9,7 @@
 
 * Unix-like operating system
 * [Java 8 or later](https://www.java.com/en/download/)
-* [Jason](https://sourceforge.net/projects/jason/files/jason/)
+* [Jason](http://jason.sourceforge.net/wp/)
 
 ## Instructions
 
