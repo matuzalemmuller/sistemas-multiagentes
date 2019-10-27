@@ -2,25 +2,27 @@
 
 +!start <-
     .random(R1);
-	A = R1 * 100;
-	C = math.ceil(A);
-    +bankAccount(C);
-    .print("I'm entering the auction and I have ",C);
-    .send(auction,tell,bidder(C)).
+	S = R1 * 10;
+	Amount = math.ceil(S);
+    +bankAccount(Amount);
+    .print("I'm entering the auction and I have ",Amount);
+	.send(auctioneer,tell,bidder(Amount)).
 
 +bid(Value) <-
     -+bidReceived(Value);
     -bid(Value);
     !check.
 
-+!check : bidReceived(Value) & bankAccount(Balance) & Value < Balance <-
++!check : bidReceived(Value) & bankAccount(Balance) & Value < Balance  <-
 	.print("I'm still in the auction.").
 
 +!check : bidReceived(Value) & bankAccount(Balance) & Value == Balance <-
     .print("I'm all in.").
 
 +!check <-
-    .send(auction,untell,bidder(Balance));
+	?bankAccount(C);
     .print("I'm leaving the auction");
-    .my_name(A);
-    .kill_agent(A).
+	.send(auctioneer,untell,bidder(C));
+	.my_name(Name);
+	.send(auctioneer,achieve,lastBidder(Name));
+    .kill_agent(Name).
