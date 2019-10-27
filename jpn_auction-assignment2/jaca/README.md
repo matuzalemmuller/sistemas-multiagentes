@@ -1,6 +1,6 @@
 ## Japanese Auction using Jason
 
-Implementation of japanese auction using Agents, Artifacts and Organization.
+Implementation of japanese auction using Agents and Artifacts.
 
 ### Requirements
 
