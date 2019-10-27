@@ -6,7 +6,7 @@ mas jaca {
 
     // Agents initialization
     agent auctioneer: auctioneer.asl{
-    	beliefs: startPrice(0), increment(1)
+        beliefs: startPrice(0), increment(1)
         join: room
         focus: room.product
     }
@@ -14,12 +14,12 @@ mas jaca {
     agent bidder: bidder.asl{
         join: room
         focus: room.product
-		instances: 50
+        instances: 50
     } 
 
     // Environment workspaces
      workspace room {
-    	artifact product : auction.artifact()
+        artifact product : auction.artifact()
     }
 
 }
