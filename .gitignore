@@ -4,9 +4,6 @@
 # VSCode files
 .vscode
 
-# Virtualenv directory
-env
-
 # Compiled java files
 *.class
 
