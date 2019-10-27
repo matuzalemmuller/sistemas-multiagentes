@@ -1,4 +1,4 @@
-## Japanese Auction using Jason
+## Japanese Auction using JaCaMo
 
 Implementation of japanese auction using Agents, Artifacts and Organisation.
 
