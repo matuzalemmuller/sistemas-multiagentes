@@ -22,4 +22,6 @@
     .print("Auction complete. Winner is ", Winner).
 
 +!auction : numBidders(N) & N < 1 <-
-    .print("There was a tie for the auction").
+    .print("No bidders. Ending auction.");
+    .my_name(Name);
+    .kill_agent(Name).

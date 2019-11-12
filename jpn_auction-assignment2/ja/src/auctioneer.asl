@@ -15,9 +15,13 @@ increment(1).
 +!auction : .count(bidder(_),Bidder) & Bidder == 1 & bidder(_)[source(Name)]<-
     .print("The Winner is:", Name).
 
++!auction : .count(bidder(_),Bidder) & Bidder == 0 & lastBidder(L) <-
+    .print("Price was too high. Latest one to leave and winner is: ", L).
+
 +!auction : .count(bidder(_),Bidder) & Bidder == 0 <-
-    ?lastBidder(L);
-    .print("Increment was too high. Latest one to leave and winner is: ", L).
+    .print("No bidders. Ending auction.");
+    .my_name(Name);
+    .kill_agent(Name).
 
 +!auction : value(X) & increment(I) <-
     Amount = X + I;

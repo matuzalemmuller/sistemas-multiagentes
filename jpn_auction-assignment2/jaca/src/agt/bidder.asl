@@ -5,7 +5,7 @@
 +!join <-
     +exited(false);
     .random(R1);
-    C = R1 * 100;
+    C = R1 * 10;
     Amount = math.ceil(C);
     +bankAccount(Amount);
     .my_name(Name);
